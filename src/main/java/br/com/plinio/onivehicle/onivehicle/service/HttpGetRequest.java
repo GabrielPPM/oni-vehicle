@@ -19,18 +19,27 @@ public class HttpGetRequest {
     }
 
     public String getVehicleData (){
+
+        System.out.println("testes " + this.vehicle);
+
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://parallelum.com.br/fipe/api/v1/" + vehicle + "/marcas"))
+                .uri(URI.create("https://parallelum.com.br/fipe/api/v1/" + this.vehicle + "/marcas"))
                 .build();
+
         HttpResponse <String> response = null;
         try {
+
             response = client
                     .send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (IOException | InterruptedException e){
-            throw new RuntimeException(e);
 
+        } catch (IOException | InterruptedException e){
+
+            System.out.println("por que está dando erro?");
+
+            throw new RuntimeException(e);
         }
+
         return response.body();
     }
 
@@ -46,5 +55,7 @@ public class HttpGetRequest {
         } catch (IOException | InterruptedException e) {
             throw new RuntimeException(e);
         }
+
+        return response.body();
     }
 }

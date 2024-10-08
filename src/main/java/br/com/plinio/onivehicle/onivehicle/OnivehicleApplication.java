@@ -25,6 +25,7 @@ public class OnivehicleApplication implements CommandLineRunner {
 		Scanner userInput = new Scanner(System.in);
 		AccentsRemover textCleaner = new AccentsRemover();
 		HttpGetRequest getVehicleData = new HttpGetRequest();
+
 		Deserializer deserializer = new Deserializer();
 		Gson gson = new Gson();
 		Type listMap = new TypeToken<List<Map<String, String>>>() {}.getType();
@@ -44,6 +45,8 @@ public class OnivehicleApplication implements CommandLineRunner {
 		String chosenOption = userInput.nextLine().toLowerCase();
 		String chosenOptionFormated = textCleaner.RemoveAccents((chosenOption));
 
+		getVehicleData.setVehicle(chosenOptionFormated);
+
 		System.out.println("Escolha do usuário: " + chosenOptionFormated);
 
 		if(Objects.equals(chosenOptionFormated, "carros") || Objects.equals(chosenOptionFormated, "motos")
@@ -51,7 +54,9 @@ public class OnivehicleApplication implements CommandLineRunner {
 
 			//agora é necessário primeiro passar as informações através de setters e depois chamar a função pois a função
 			//irá utilizar as informações guardadas nas variáveis;
-			json = getVehicleData.getVehicleData(chosenOptionFormated);
+			json = getVehicleData.getVehicleData();
+			System.out.println("cheguei até aqui 02");
+
 			try{
 				System.out.println(json);
 				System.out.println("Teste Gson deserializer");
@@ -59,10 +64,16 @@ public class OnivehicleApplication implements CommandLineRunner {
 				List<Map<String, String>> listOfMapJson = (gson.fromJson(json, listMap));
 				System.out.println(listOfMapJson);
 				listOfMapJson.stream()
-						.forEach(e -> System.out.println(e.get("nome") + " " + "( " + e.get("codigo") + " )"));
+						.forEach(e -> System.out.println(e.get("nome") + " " + "( Código: " + e.get("codigo") + " )"));
 			} catch (Exception e) {
                 throw new RuntimeException(e);
             }
+
+			System.out.println("por favor, insira o código do carro que você deseja pesquisar: ");
+			Integer carCode = userInput.nextInt();
+			System.out.println(carCode);
+
+
 
 
         }
