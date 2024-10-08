@@ -7,10 +7,21 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 public class HttpGetRequest {
-    public String getData (String veiculo){
+    private String vehicle;
+    private int vehicleModel;
+
+    public void setVehicle(String vehicle) {
+        this.vehicle = vehicle;
+    }
+
+    public void setVehicleModel(int vehicleModel) {
+        this.vehicleModel = vehicleModel;
+    }
+
+    public String getVehicleData (){
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://parallelum.com.br/fipe/api/v1/" + veiculo + "/marcas"))
+                .uri(URI.create("https://parallelum.com.br/fipe/api/v1/" + vehicle + "/marcas"))
                 .build();
         HttpResponse <String> response = null;
         try {
@@ -21,5 +32,19 @@ public class HttpGetRequest {
 
         }
         return response.body();
+    }
+
+    public String getVehicleModelData (){
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create("https://parallelum.com.br/fipe/api/v1/" + vehicle + "/marcas/" + vehicleModel + "/modelos"))
+                .build();
+        HttpResponse <String> response = null;
+        try{
+            response = client
+                    .send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException | InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
