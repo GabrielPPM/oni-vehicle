@@ -29,6 +29,7 @@ public class OnivehicleApplication implements CommandLineRunner {
 		Deserializer deserializer = new Deserializer();
 		Gson gson = new Gson();
 		Type listMap = new TypeToken<List<Map<String, String>>>() {}.getType();
+		Type listMapVehicleBrand = new TypeToken<Map<String, List<Map<String, String>>>>() {}.getType();
 
 		String json;
 		Map<String, Object> map;
@@ -68,18 +69,31 @@ public class OnivehicleApplication implements CommandLineRunner {
                 throw new RuntimeException(e);
             }
 
-			System.out.println("por favor, insira o código do carro que você deseja pesquisar: ");
+			System.out.println("por favor, insira o código da marca que você deseja pesquisar: ");
 			Integer carCode = userInput.nextInt();
-			getVehicleData.setVehicleModel(carCode);
-			json = getVehicleData.getVehicleModelData();
+			getVehicleData.setVehicleBrand(carCode);
+
+			json = getVehicleData.getVehicleBrandData();
 			try{
+
 				System.out.println(json);
-				List<Map<List<Map<String, String>>, List<Map<String, String>>>> listOfMapJson = (gson
-						.fromJson(List<Map<List<Map<String, String>>, List<Map<String, String>>>>)
+
+				Map<String, List<Map<String, String>>> listOfMapJson = (gson.fromJson(json, listMapVehicleBrand));
+
+				System.out.println("getVehicleBrandData()");
+				System.out.println(listOfMapJson);
+				System.out.println("");
+
+				listOfMapJson.get("modelos").stream()
+						.forEach(e -> System.out.println("a marca de " + chosenOptionFormated + " selecionado foi: " +  e.get("nome")));
+				listOfMapJson.get("anos").stream().
+						forEach(e -> System.out.println(e));
+
+				//listOfMapJson.stream().forEach(e -> System.out.println(e));
+
 			} catch (Exception e) {
                 throw new RuntimeException(e);
             }
-
 
         }
 	}

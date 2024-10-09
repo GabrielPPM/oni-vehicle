@@ -8,16 +8,16 @@ import java.net.http.HttpResponse;
 
 public class HttpGetRequest {
     private String vehicle;
-    private int vehicleModel;
+    private int vehicleBrand;
 
     public void setVehicle(String vehicle) {
         this.vehicle = vehicle;
         System.out.println(vehicle);
     }
 
-    public void setVehicleModel(int vehicleModel) {
-        this.vehicleModel = vehicleModel;
-        System.out.println(vehicleModel);
+    public void setVehicleBrand(int vehicleBrand) {
+        this.vehicleBrand = vehicleBrand;
+        System.out.println(vehicleBrand);
     }
 
     public String getVehicleData (){
@@ -43,10 +43,10 @@ public class HttpGetRequest {
         return response.body();
     }
 
-    public String getVehicleModelData (){
+    public String getVehicleBrandData (){
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
-                .uri(URI.create("https://parallelum.com.br/fipe/api/v1/" + vehicle + "/marcas/" + vehicleModel + "/modelos"))
+                .uri(URI.create("https://parallelum.com.br/fipe/api/v1/" + vehicle + "/marcas/" + vehicleBrand + "/modelos"))
                 .build();
         HttpResponse <String> response = null;
         try{
