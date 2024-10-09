@@ -12,15 +12,15 @@ public class HttpGetRequest {
 
     public void setVehicle(String vehicle) {
         this.vehicle = vehicle;
+        System.out.println(vehicle);
     }
 
     public void setVehicleModel(int vehicleModel) {
         this.vehicleModel = vehicleModel;
+        System.out.println(vehicleModel);
     }
 
     public String getVehicleData (){
-
-        System.out.println("testes " + this.vehicle);
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()

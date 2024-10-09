@@ -55,7 +55,6 @@ public class OnivehicleApplication implements CommandLineRunner {
 			//agora é necessário primeiro passar as informações através de setters e depois chamar a função pois a função
 			//irá utilizar as informações guardadas nas variáveis;
 			json = getVehicleData.getVehicleData();
-			System.out.println("cheguei até aqui 02");
 
 			try{
 				System.out.println(json);
@@ -71,9 +70,15 @@ public class OnivehicleApplication implements CommandLineRunner {
 
 			System.out.println("por favor, insira o código do carro que você deseja pesquisar: ");
 			Integer carCode = userInput.nextInt();
-			System.out.println(carCode);
-
-
+			getVehicleData.setVehicleModel(carCode);
+			json = getVehicleData.getVehicleModelData();
+			try{
+				System.out.println(json);
+				List<Map<List<Map<String, String>>, List<Map<String, String>>>> listOfMapJson = (gson
+						.fromJson(List<Map<List<Map<String, String>>, List<Map<String, String>>>>)
+			} catch (Exception e) {
+                throw new RuntimeException(e);
+            }
 
 
         }
