@@ -48,8 +48,6 @@ public class OnivehicleApplication implements CommandLineRunner {
 
 		getVehicleData.setVehicle(chosenOptionFormated);
 
-		System.out.println("Escolha do usuário: " + chosenOptionFormated);
-
 		if(Objects.equals(chosenOptionFormated, "carros") || Objects.equals(chosenOptionFormated, "motos")
 				|| Objects.equals(chosenOptionFormated, "caminhoes")){
 
@@ -59,19 +57,26 @@ public class OnivehicleApplication implements CommandLineRunner {
 
 			try{
 				System.out.println(json);
-				System.out.println("Teste Gson deserializer");
 				System.out.println(gson.fromJson(json, Collection.class));
+
 				List<Map<String, String>> listOfMapJson = (gson.fromJson(json, listMap));
+
 				System.out.println(listOfMapJson);
+
 				listOfMapJson.stream()
 						.forEach(e -> System.out.println(e.get("nome") + " " + "( Código: " + e.get("codigo") + " )"));
+
+				System.out.println("");
+				System.out.println("Escolhas anteriores: " + getVehicleData.getVehicle());
+
 			} catch (Exception e) {
                 throw new RuntimeException(e);
             }
 
 			System.out.println("por favor, insira o código da marca que você deseja pesquisar: ");
-			Integer carCode = userInput.nextInt();
-			getVehicleData.setVehicleBrand(carCode);
+
+			String vehicleBrandCode = userInput.nextLine();
+			getVehicleData.setVehicleBrandCode(vehicleBrandCode);
 
 			json = getVehicleData.getVehicleBrandData();
 			try{
@@ -85,15 +90,37 @@ public class OnivehicleApplication implements CommandLineRunner {
 				System.out.println("");
 
 				listOfMapJson.get("modelos").stream()
-						.forEach(e -> System.out.println("a marca de " + chosenOptionFormated + " selecionado foi: " +  e.get("nome")));
-				listOfMapJson.get("anos").stream().
-						forEach(e -> System.out.println(e));
+						.forEach(e -> System.out.println("modelo: " + e.get("nome") + " ( Código: " + e.get("codigo") + " )"));
 
-				//listOfMapJson.stream().forEach(e -> System.out.println(e));
+				System.out.println("TESTESTESTSE");
+
+				System.out.println("Escolhas anteriores: " + getVehicleData.getVehicle() + " -> " + getVehicleData.getVehicleBrandCode());
 
 			} catch (Exception e) {
                 throw new RuntimeException(e);
             }
+
+			System.out.println("Para prosseguir digite o Código do modelo desejado:");
+			//userInput.nextLine();
+			String vehicleModelCode = userInput.nextLine();
+
+			getVehicleData.setVehicleModelCode(vehicleModelCode);
+
+            json = getVehicleData.getVehicleModelData();
+
+
+			try{
+
+				System.out.println(json);
+
+				System.out.println("");
+				System.out.println("Escolhas anteriores: " + getVehicleData.getVehicle() + " -> " + getVehicleData.getVehicleBrandCode()
+						+ " -> " + getVehicleData.getVehicleModelCode());
+
+			} catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
 
         }
 	}
