@@ -28,6 +28,7 @@ public class OnivehicleApplication implements CommandLineRunner {
 
 		Deserializer deserializer = new Deserializer();
 		Gson gson = new Gson();
+		Type mapString = new TypeToken<Map<String, String>>() {}.getType();
 		Type listMap = new TypeToken<List<Map<String, String>>>() {}.getType();
 		Type listMapVehicleBrand = new TypeToken<Map<String, List<Map<String, String>>>>() {}.getType();
 
@@ -77,6 +78,8 @@ public class OnivehicleApplication implements CommandLineRunner {
 
 			String vehicleBrandCode = userInput.nextLine();
 			getVehicleData.setVehicleBrandCode(vehicleBrandCode);
+			System.out.println();
+			//getVehicleData.setVehicleBrand();
 
 			json = getVehicleData.getVehicleBrandData();
 			try{
@@ -117,9 +120,47 @@ public class OnivehicleApplication implements CommandLineRunner {
 				System.out.println("Escolhas anteriores: " + getVehicleData.getVehicle() + " -> " + getVehicleData.getVehicleBrandCode()
 						+ " -> " + getVehicleData.getVehicleModelCode());
 
+				List<Map<String, String>> jsonDeserialized = gson.fromJson(json, listMap);
+				jsonDeserialized.stream()
+						.forEach(e -> System.out.println("Ano: " + e.get("nome") + " ( código: " + e.get("codigo") + " )"));
+
+				System.out.println("Escolhas anteriores: " + getVehicleData.getVehicle() + " -> " + getVehicleData.getVehicleBrandCode() + " -> " + getVehicleData.getVehicleModelCode());
+
 			} catch (Exception e) {
                 throw new RuntimeException(e);
             }
+
+			System.out.println("Para prosseguir digite o Código do Ano desejado: ");
+			String vehicleYearCode = userInput.nextLine();
+
+			getVehicleData.setVehicleYearsCode(vehicleYearCode);
+
+			json = getVehicleData.getVehicleYearData();
+
+			try{
+				System.out.println(json);
+				Map<String, String> jsonDeserialized = gson.fromJson(json, mapString);
+
+				System.out.println(
+							"Valor: " + jsonDeserialized.get("Valor") +
+							"\nMarca: " + jsonDeserialized.get("Marca") +
+							"\nModelo: " + jsonDeserialized.get("Modelo") +
+							"\nAno do Modelo: " + jsonDeserialized.get("AnoModelo") +
+							"\nCombustível: " + jsonDeserialized.get("Combustivel")
+							);
+
+						//.forEach(e -> System.out.println(
+						//		"Valor: " + e.get("Valor") +
+						//		"\nMarca: " + e.get("Marca") +
+						//		"\nModelo: " + e.get("Modelo") +
+						//		"\nAno do Modelo: " + e.get("AnoModelo") +
+						//		"\nCombustível: " + e.get("Combustivel")
+						//		));
+
+			} catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+
 
 
         }
